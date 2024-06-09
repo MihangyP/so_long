@@ -6,7 +6,7 @@
 /*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:51:28 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/06/09 16:25:19 by pmihangy         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:42:42 by pmihangy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,19 @@
 
 int	main(int ac, char **av)
 {
-	void	*con;
-	void	*win;
+	t_map	*map;
+	int		fd;
+	char	*s;
 
-	con = mlx_init();
-	win = mlx_new_window(con, 800, 800, "Donto");
-	mlx_loop(con);
+	fd = open(av[1], O_RDONLY);
+	if (-1 == fd)
+		return (69);
+	s = get_next_line(fd);
+	map->content = get_next_line(fd);
+	while (s)
+	{
+		map->content = get_next_line(fd);
+		s = get_next_line(fd);
+	}
 	return (0);
 }

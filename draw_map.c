@@ -6,7 +6,7 @@
 /*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:55:16 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/06/10 16:20:19 by pmihangy         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:40:14 by pmihangy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	draw_map(t_data *data, t_map *map)
 {
 	int	i;
 	int	j;
+	int	t;
 
 	i = 0;
 	while (i < HEIGHT)
@@ -54,7 +55,15 @@ void	draw_map(t_data *data, t_map *map)
 		}
 		++i;
 	}
-	draw_rect(data, WIDTH / 2, HEIGHT / 2, 200, 200, 0x000000);
+	i = 0;
+	j = 0;
+	t = 0;
+	while (map->content[t] != '\n')
+	{
+		draw_rect(data, i, j, 50, 150, 0x000000);
+		j += 50 + 10;
+		++t;
+	}
 	mlx_put_image_to_window(data->con,
 				data->win,
 				data->img.img_ptr,

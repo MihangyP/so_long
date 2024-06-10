@@ -6,12 +6,12 @@
 #    By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 15:54:33 by pmihangy          #+#    #+#              #
-#    Updated: 2024/06/10 13:29:06 by pmihangy         ###   ########.fr        #
+#    Updated: 2024/06/10 15:56:01 by pmihangy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
-SRCS_FILES = main.c args_errors.c catch_map.c map_errors.c
+SRCS_FILES = main.c args_errors.c catch_map.c map_errors.c init.c draw_map.c
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 MLX_LIBS = -lmlx_Linux -lX11 -lXext

@@ -6,11 +6,12 @@
 #    By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 15:54:33 by pmihangy          #+#    #+#              #
-#    Updated: 2024/06/09 16:26:19 by pmihangy         ###   ########.fr        #
+#    Updated: 2024/06/10 10:27:42 by pmihangy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
+SRCS_FILES = main.c args_errors.c
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 MLX_LIBS = -lmlx_Linux -lX11 -lXext
@@ -18,7 +19,7 @@ MLX_LIBS = -lmlx_Linux -lX11 -lXext
 all :
 	make -C ./libft
 	make -C ./minilibx
-	$(CC) main.c -o $(NAME) -Llibft -lft -Lminilibx $(MLX_LIBS)
+	$(CC) $(SRCS_FILES) -o $(NAME) -Llibft -lft -Lminilibx $(MLX_LIBS)
 
 clean :
 	make -C ./libft clean

@@ -6,7 +6,7 @@
 /*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:52:31 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/06/09 16:33:49 by pmihangy         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:26:03 by pmihangy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,8 @@ typedef struct	s_map
 	char			*content;
 	struct s_map	*next;
 }	t_map;
+
+/* Errors handlers functions prototypes */
+void	handle_args_errors(int ac, char **av);
 
 #endif

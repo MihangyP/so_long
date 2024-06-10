@@ -6,7 +6,7 @@
 /*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:51:28 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/06/10 10:32:37 by pmihangy         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:19:17 by pmihangy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,38 +49,85 @@ dans la carte.
 et retourner "Error\n" suivi d’un message d’erreur explicite de votre choix.
 */
 
+size_t	is_close(t_map *map)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (map)
+	{
+		i = 0;
+		while (map->content[i] != '\n')
+		{
+			if ((i == 0 && map->content[i] != '1') 
+				|| (map->content[i + 1] == '\n' && map->content[i] != '1'))
+				return (0);
+			if ((j == 0 && map->content[i] != '1') 
+				|| (map->next == NULL && map->content[i] != '1'))
+				return (0);
+			++i;
+		}
+		++j;
+		map = map->next;
+	}
+	return (1);
+}
+
+size_t	count_head_line_len(t_map *map)
+{
+	int	len;
+
+	len = 0;
+	while (map->content[len] != '\n')
+		++len;
+	return (len);
+}
+
+size_t	is_rect(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = count_head_line_len(map);
+	while (map)
+	{
+		j = 0;
+		while (map->content[j] != '\n')
+			++j;
+		if (i != j)
+			return (0);
+		map = map->next;
+	}
+	return (1);
+}
+
+void	handle_map_errors(t_map *map)
+{
+	if (!is_close(map))
+	{
+		ft_putstr_fd(
+				"Error\n"
+				"Your map is not close",
+				2);
+		exit(69);
+	}
+	else if (!is_rect(map))
+	{
+		ft_putstr_fd("Error\n"
+				"Your map don't form a rectangle", 2);
+		exit(69);
+	}
+}
 
 int	main(int ac, char **av)
 {
 	t_map	*map;
-	t_map	*curr;
-	t_map	*tmp;
-	int		fd;
-	char	*s;
 
 	handle_args_errors(ac, av);
-	fd = open(av[1], O_RDONLY);
-	if (-1 == fd)
-		return (69);
-	map = malloc(sizeof(t_map));
+	map = catch_map(av[1]);
 	if (NULL == map)
 		return (69);
-	curr = map;
-	curr->content = get_next_line(fd);
-	curr->next = NULL;
-	while (curr->content)
-	{
-		tmp = curr;
-		curr->next = malloc(sizeof(t_map));
-		curr = curr->next;
-		curr->content = get_next_line(fd);
-	}
-	tmp->next = NULL;
-	curr = map;
-	while (curr)
-	{
-		printf("%s", curr->content);
-		curr = curr->next;
-	}
+	handle_map_errors(map);
 	return (0);
 }

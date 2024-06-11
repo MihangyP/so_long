@@ -1,33 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 15:32:21 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/06/11 12:27:42 by pmihangy         ###   ########.fr       */
+/*   Created: 2024/06/11 10:20:41 by pmihangy          #+#    #+#             */
+/*   Updated: 2024/06/11 13:04:02 by pmihangy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	init_so_long(t_data *data, t_map *map)
+static int	handle_key_press(int keysym, t_data *data)
 {
-	data->con = mlx_init();
-	if (NULL == data->con)
-		exit(69);
-	data->win = mlx_new_window(data->con, WIDTH, HEIGHT, "So Long");
-	if (NULL == data->win)
+	if (keysym == XK_Escape)
 	{
 		mlx_destroy_display(data->con);
-		free(data->con);
+		mlx_destroy_window(data->con, data->win);
+		free(data);
 		exit(69);
 	}
-	data->img.img_ptr = mlx_new_image(data->con, WIDTH, HEIGHT);
-	data->img.addr = mlx_get_data_addr(data->img.img_ptr, 
-										&(data->img.bpp),
-										&(data->img.size_len), 
-										&(data->img.endian));
-	data->map = map;
+	if (keysym == XK_Left)
+	{
+		printf("left\n");
+	}
+	if (keysym == XK_Right)
+	{
+		printf("right\n");
+	}
+	if (keysym == XK_Up)
+	{
+		printf("up\n");
+	}
+	if (keysym == XK_Down)
+	{
+		printf("down\n");
+	}
+}
+
+void	listen_events(t_data *data)
+{
+	mlx_hook(data->win, KeyPress, KeyPressMask, handle_key_press, data);	
 }

@@ -6,43 +6,50 @@
 /*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:55:16 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/06/10 16:40:14 by pmihangy         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:30:45 by pmihangy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+/*
+1111111111111
+10010000000C1
+1000011111001
+1P0011E000001
+1111111111111
+*/
 
-void	draw_pixel(t_img *img, int x, int y, int color)
+size_t	count_map_width(t_map *map)
 {
-	int	pos;
+	int	len;
 
-	pos = (y * img->size_len) + (x * (img->bpp / 8));
-	*(unsigned int *)(pos + img->addr) = color;
+	len = 0;
+	while (map->content[len] != '\n')
+		++len;
+	return (len);
 }
 
-void	draw_rect(t_data *data, int pos_x, int pos_y, int width, int height, int color)
+size_t	count_map_height(t_map *map)
 {
-	int	i;
-	int	j;
+	int len;
 
-	i = pos_y;
-	while (i < pos_y + height)
+	len = 0;
+	while (map)
 	{
-		j = pos_x;
-		while (j < pos_x + width)
-		{
-			draw_pixel(&data->img, i, j, color);
-			++j;
-		}
-		++i;
+		++len;
+		map = map->next;
 	}
+	return (len);
 }
 
-void	draw_map(t_data *data, t_map *map)
+void	draw_map(t_data *data)
 {
 	int	i;
 	int	j;
 	int	t;
+	size_t	map_width;
+	size_t	map_height;
+	t_map	*curr;
 
 	i = 0;
 	while (i < HEIGHT)
@@ -50,19 +57,36 @@ void	draw_map(t_data *data, t_map *map)
 		j = 0;
 		while (j < WIDTH)
 		{
-			draw_pixel(&data->img, i, j, 0xFFFFFF);
+			draw_pixel(&data->img, i, j, WHITE);
 			++j;
 		}
 		++i;
 	}
 	i = 0;
 	j = 0;
-	t = 0;
-	while (map->content[t] != '\n')
+	map_width = count_map_width(data->map);
+	map_height = count_map_height(data->map);
+	curr = data->map;
+	while (curr)
 	{
-		draw_rect(data, i, j, 50, 150, 0x000000);
-		j += 50 + 10;
-		++t;
+		t = 0;
+		while (curr->content[t] != '\n')
+		{
+			if (curr->content[t] == '1')
+				draw_rect(data, i, j, (int)(WIDTH/map_width), (int)(HEIGHT/map_height), BLACK);
+			else if (curr->content[t] == 'P')
+			{
+				draw_rect(data, i, j, (int)(WIDTH/map_width), (int)(HEIGHT/map_height), RED);
+			}
+			else if (curr->content[t] == 'C')
+				draw_rect(data, i, j, (int)(WIDTH/map_width), (int)(HEIGHT/map_height), GREEN);
+			else if (curr->content[t] == 'E')
+				draw_rect(data, i, j, (int)(WIDTH/map_width), (int)(HEIGHT/map_height), YELLOW);
+			i += (int)(WIDTH/map_width) + 1;
+			++t;
+		}
+		j += (int)(HEIGHT/map_height);
+		curr = curr->next;
 	}
 	mlx_put_image_to_window(data->con,
 				data->win,

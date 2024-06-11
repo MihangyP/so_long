@@ -6,7 +6,7 @@
 /*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:51:28 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/06/10 15:56:52 by pmihangy         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:28:47 by pmihangy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	if (NULL == data)
 		return (69);
-	init_so_long(data);
-	draw_map(data, map);
+	init_so_long(data, map);
+	draw_map(data);
+	listen_events(data);
 	mlx_loop(data->con);
 	return (0);
 }
